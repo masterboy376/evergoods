@@ -118,10 +118,10 @@ const Navbar = () => {
             <button><GrClose size={24} onClick={toggleCategory} /></button>
           </div>
           <hr />
-          <Link href={'/clothing'}><button onClick={toggleCategory} className='text-left w-full p-4 hover:bg-gray-100 border'>Clothing</button></Link>
-          <Link href={'/accessory'}><button onClick={toggleCategory} className='text-left w-full p-4 hover:bg-gray-100 border'>Accesories</button></Link>
-          <Link href={'/footware'}><button onClick={toggleCategory} className='text-left w-full p-4 hover:bg-gray-100 border'>Footware</button></Link>
-          <Link href={'/electronic'}><button onClick={toggleCategory} className='text-left w-full p-4 hover:bg-gray-100 border'>Electroics</button></Link>
+          <Link href={'/laptop'}><button onClick={toggleCategory} className='text-left w-full p-4 hover:bg-gray-100 border'>Laptop</button></Link>
+          <Link href={'/bagpack'}><button onClick={toggleCategory} className='text-left w-full p-4 hover:bg-gray-100 border'>Bagpack</button></Link>
+          <Link href={'/watch'}><button onClick={toggleCategory} className='text-left w-full p-4 hover:bg-gray-100 border'>Watch</button></Link>
+          <Link href={'/headphone'}><button onClick={toggleCategory} className='text-left w-full p-4 hover:bg-gray-100 border'>Headphone</button></Link>
         </div>
 
         {/* Profile  */}

@@ -20,7 +20,6 @@ export const ContextProvider = ({ children }) => {
     }, [isLoading])
 
     // -----funstions-----
-    //connect db function
 
 
     return (

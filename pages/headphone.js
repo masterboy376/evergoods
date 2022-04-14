@@ -3,7 +3,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 
-const Footware = () => {
+const Headphone = () => {
     return (
         <>
             <div className='min-h-screen '>
@@ -138,4 +138,4 @@ const Footware = () => {
     )
 }
 
-export default Footware
+export default Headphone

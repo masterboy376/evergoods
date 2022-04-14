@@ -3,7 +3,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 
-const Electronic = () => {
+const Bagpack = () => {
     return (
         <>
             <div className='min-h-screen '>
@@ -138,4 +138,4 @@ const Electronic = () => {
     )
 }
 
-export default Electronic
+export default Bagpack

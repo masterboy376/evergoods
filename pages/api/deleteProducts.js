@@ -3,6 +3,7 @@ import connectDb from '../../middleware/connect'
 
 const handler = async (req, res) => {
     if (req.method == 'POST') {
+        connectDb()
         try {
             for (let i = 0; i < req.body.length; i++) {
                 let product = await Product.findByIdAndDelete(req.body[i]._id)
@@ -18,4 +19,4 @@ const handler = async (req, res) => {
     }
 }
 
-export default connectDb(handler)
+export default handler
