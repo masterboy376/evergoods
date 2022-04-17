@@ -1,5 +1,5 @@
-import Product from '../../models/Product'
-import connectDb from '../../middleware/connect'
+import Product from '../../../models/Product'
+import connectDb from '../../../middleware/connect'
 
 const handler = async (req, res) => {
     if (req.method == 'POST') {

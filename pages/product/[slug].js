@@ -3,6 +3,8 @@ import { useRouter } from 'next/router'
 import { MdVerified, MdError } from 'react-icons/md'
 import connectDb from '../../middleware/connect'
 import Product from '../../models/Product'
+import Link from 'next/link'
+import Head from 'next/head'
 
 const Slug = ({ product, variants }) => {
   const router = useRouter()
@@ -26,6 +28,11 @@ const Slug = ({ product, variants }) => {
 
   return (
     <div>
+      <Head>
+        <title>evergoods</title>
+        <meta name="description" content="get your goods everywhere, e-commerce, buy, fast delivery." />
+        <link rel="icon" href="/favicon.png" />
+      </Head>
 
       <section className="text-gray-600 body-font overflow-hidden">
         <div className="container px-5 py-10 mx-auto">
@@ -74,19 +81,29 @@ const Slug = ({ product, variants }) => {
               <p className="leading-relaxed">{product.description}</p>
               <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
                 <div className="flex">
-                  <span className="mr-3">Color</span>
+                  <span className="mr-3">Colors</span>
                   {Object.keys(variants).map((item) => {
-                    return <button className={`border-2 border-gray-400 mr-1 bg-[${item}] rounded-full w-6 h-6 focus:outline`}></button>
+                    return <Link key={variants[item][Object.keys(variants[item])[0]]['slug']} href={`/product/${variants[item][Object.keys(variants[item])[0]]['slug']}`}>
+                      <button style={{backgraoudColor:item}} className={`border-2 mr-1 rounded-full w-6 h-6 ${item==product.color?'border-yellow-400':''}`}></button>
+                      </Link>
                   })
                   }
                 </div>
                 <div className="flex ml-6 items-center">
-                  <span className="mr-3">Size</span>
+                  <span className="mr-3">Variants</span>
                   <div className="relative">
-                    <select className="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-200 focus:border-yellow-500 text-base pl-3 pr-10">
+                    <select onChange={(e)=>{
+                      router.push(`/product/${variants[product.color][e.target.value]['slug']}`)
+                    }} className="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-200 focus:border-yellow-500 text-base pl-3 pr-10">
+                      <option value={product.storage}>{product.storage}</option>
                       {
                         Object.keys(variants[product.color]).map((item) => {
-                          return <option>{item}</option>
+                          if(item!=product.storage){
+                            return <option key={variants[product.color][item]['slug']} value={item}>{item}</option>
+                          }
+                        else{
+                          return 
+                        }
                         })
                       }
                     </select>

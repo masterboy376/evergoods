@@ -1,12 +1,12 @@
-import Product from '../../models/Product'
-import connectDb from '../../middleware/connect'
+import Product from '../../../models/Product'
+import connectDb from '../../../middleware/connect'
 
 const handler = async (req, res) => {
     if (req.method == 'POST') {
         connectDb()
         try {
             for (let i = 0; i < req.body.length; i++) {
-                let product = await Product.findByIdAndUpdate(req.body[i]._id, req.body[i])
+                let product = await Product.findByIdAndDelete(req.body[i]._id)
             }
             return res.status(200).json({ sucess: true, items: req.body })
         }

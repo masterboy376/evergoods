@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import Image from 'next/image'
 import { BiSearch } from 'react-icons/bi'
 import { BsCart4, BsFillBagCheckFill } from 'react-icons/bs'
@@ -12,6 +12,7 @@ import Login from './login'
 import Modal from 'react-modal'
 import { useRouter } from 'next/router'
 import Signup from './signup'
+import { Context } from '../context/context'
 
 const customStyles = {
   content: {
@@ -21,7 +22,7 @@ const customStyles = {
     right: 'auto',
     bottom: 'auto',
     width: '90%',
-    maxWidth:'300px',
+    maxWidth: '300px',
     transform: 'translate(-50%, -50%)',
     backgroundColor: 'white',
     border: '1px solid black',
@@ -35,6 +36,7 @@ const customStyles = {
 }
 
 const Navbar = () => {
+  const { isLoggedin, userLogout } = useContext(Context)
   const router = useRouter()
 
   // toggle hamburger menu 
@@ -87,21 +89,25 @@ const Navbar = () => {
             <button type='button' className='border-t border-r border-b bg-white border-gray-400 rounded-r-xl flex justify-center items-center sm:p-2 hover:bg-gray-100'><BiSearch color='black' size={28} /></button>
           </div>
           <div className="flex justify-evenly items-center">
-            {/* <>
-          <a><button onClick={()=>{router.push(`/?modal=login`)}} type='button' className='px-4 py-2 bg-gray-800 text-white rounded-xl text-lg hover:bg-gray-700'>Login</button></a>
-          <a onClick={()=>{router.push(`/?modal=signup`)}} className='px-2 cursor-pointer text-black py-2 bg-transparent text-lg hover:underline ml-2'>Signup</a>
-          </> */}
-            <>
-            <a onClick={toggleCategory} className='cursor-pointer px-2 hidden sm:flex items-center text-black py-2 text-lg hover:underline hover:text-gray-700'><span className=" hidden sm:block">Categories </span><MdExpandMore size={24} /></a>
+            {
+              !(isLoggedin) ?
+                <>
+                  <a><button onClick={() => { router.push(`/?modal=login`) }} type='button' className='px-4 py-2 bg-gray-800 text-white rounded-xl text-lg hover:bg-gray-700'>Login</button></a>
+                  <a onClick={() => { router.push(`/?modal=signup`) }} className='px-2 cursor-pointer text-black py-2 bg-transparent text-lg hover:underline ml-2'>Signup</a>
+                </>
+                :
+                <>
+                  <a onClick={toggleCategory} className='cursor-pointer px-2 hidden sm:flex items-center text-black py-2 text-lg hover:underline hover:text-gray-700'><span className=" hidden sm:block">Categories </span><MdExpandMore size={24} /></a>
 
-            <a onClick={toggleProfile} className='cursor-pointer px-2 hidden sm:flex items-center text-black py-2 text-lg hover:underline hover:text-gray-700'><span className=" hidden sm:block"><FaUserCircle size={28}/> </span><MdExpandMore size={24} /></a>
+                  <a onClick={toggleProfile} className='cursor-pointer px-2 hidden sm:flex items-center text-gray-800 py-2 text-lg hover:underline hover:text-gray-700'><span className=" hidden sm:block"><FaUserCircle className='bg-white rounded-full' size={36} /> </span></a>
 
-           <button type='button' onClick={toggleCart} className='flex items-center p-2 bg-gray-800 rounded-full text-lg 
-           hover:bg-gray-700 ml-2'><BsCart4 size={24} /></button>
+                  <button type='button' onClick={toggleCart} className='flex items-center p-2 bg-gray-800 rounded-full text-lg 
+           hover:bg-gray-700 ml-2'><BsCart4 size={20} /></button>
 
-              <button type='button' onClick={toggleMenu} className='flex sm:hidden items-center p-2 text-black rounded-full text-lg 
+                  <button type='button' onClick={toggleMenu} className='flex sm:hidden items-center p-2 text-gray-800 rounded-full text-lg 
             hover:text-gray-700 ml-2'>{displayMenu ? <GrClose size={24} /> : <GiHamburgerMenu size={24} />}</button>
-            </>
+                </>
+            }
           </div>
         </div>
 
@@ -113,7 +119,7 @@ const Navbar = () => {
 
         {/* category  */}
         <div className={`hidden ${displayCategory ? '-translate-y-0' : '-translate-y-full'} rounded bg-white sm:flex flex-col transition-all duration-300 text-black border border-gray-500 absolute top-0 right-0 h-auto overflow-y-scroll w-3/4 lg:w-1/4 sm:w-1/2 `}>
-        <div className="flex items-center justify-between p-4">
+          <div className="flex items-center justify-between p-4">
             <p className="text-black text-xl">Available categories</p>
             <button><GrClose size={24} onClick={toggleCategory} /></button>
           </div>
@@ -126,17 +132,22 @@ const Navbar = () => {
 
         {/* Profile  */}
         <div className={` hidden ${displayProfile ? '-translate-y-0' : '-translate-y-full'} rounded bg-white sm:flex flex-col transition-all duration-300 text-black border border-gray-500 absolute top-0 right-0 h-auto overflow-y-scroll w-3/4 lg:w-1/4 sm:w-1/2 `}>
-        <div className="flex bg-gray-100 items-center justify-between p-4">
+          <div className="flex bg-gray-100 items-center justify-between p-4">
             <p className="text-black text-xl">Profile</p>
             <button><GrClose size={24} onClick={toggleProfile} /></button>
           </div>
           <hr />
           <Link href={'/orders'}><button className='text-left w-full p-4 hover:bg-gray-100 border'>My orders</button></Link>
-          <Link href={'/fashion'}><button className='text-left w-full p-4 hover:bg-gray-100 border'>My transactions</button></Link>
-          <Link href={'/fashion'}><button className='text-left w-full p-4 hover:bg-gray-100 border'>My cart</button></Link>
-          <Link href={'/fashion'}><button className='text-left w-full p-4 hover:bg-gray-100 border'>Wishlist</button></Link>
-          <Link href={'/fashion'}><button className='text-left w-full p-4 hover:bg-gray-100 border'>Settings</button></Link>
-          <Link href={'/fashion'}><button className='text-left w-full p-4 hover:bg-gray-100 border'>Log out</button></Link>
+          <Link href={'/'}><button className='text-left w-full p-4 hover:bg-gray-100 border'>My transactions</button></Link>
+          <Link href={'/'}><button className='text-left w-full p-4 hover:bg-gray-100 border'>My cart</button></Link>
+          <Link href={'/'}><button className='text-left w-full p-4 hover:bg-gray-100 border'>Wishlist</button></Link>
+          <Link href={'/'}><button className='text-left w-full p-4 hover:bg-gray-100 border'>Settings</button></Link>
+          <Link href={'/'}>
+            <button onClick={()=>{
+            userLogout()
+            setDisplayProfile(false)
+            }} className='text-left w-full p-4 hover:bg-gray-100 border'>Log out</button>
+            </Link>
         </div>
 
 
@@ -206,12 +217,12 @@ const Navbar = () => {
 
       </nav>
 
-        <Modal onRequestClose={()=>{router.push('')}} ariaHideApp={false} isOpen={router.query.modal=='login'} style={customStyles}>
-            <Login />
-          </Modal>
-        <Modal onRequestClose={()=>{router.push('')}} ariaHideApp={false} isOpen={router.query.modal=='signup'} style={customStyles}>
-            <Signup />
-          </Modal>
+      <Modal onRequestClose={() => { router.push('') }} ariaHideApp={false} isOpen={router.query.modal == 'login'} style={customStyles}>
+        <Login />
+      </Modal>
+      <Modal onRequestClose={() => { router.push('') }} ariaHideApp={false} isOpen={router.query.modal == 'signup'} style={customStyles}>
+        <Signup />
+      </Modal>
 
     </>
   )
