@@ -7,7 +7,7 @@ const connectDb = async (req,res)=>{
         }
     }
     catch(error){
-        return res.status(500).json({ success: false, msg: 'Faild! to establish connection' })
+        return res.json({ success: false, msg: 'Faild! to establish connection' })
     }
 }
 

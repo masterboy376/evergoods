@@ -1,33 +1,52 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { MdVerified, MdError } from 'react-icons/md'
 import connectDb from '../../middleware/connect'
 import Product from '../../models/Product'
 import Link from 'next/link'
 import Head from 'next/head'
+import { Context } from '../../context/context'
 
 const Slug = ({ product, variants }) => {
+  const { addToCart, cartItems, toggleCart, addToWishlist, wishlist } = useContext(Context)
   const router = useRouter()
   const { slug } = router.query
+
+  const [cartProductId, setCartProductId] = useState([])
+  const [wishlistId, setWishlistId] = useState([])
 
   const [pin, setPin] = useState()
   const [service, setService] = useState()
 
   const checkService = async () => {
-    let rawData = await fetch('http://localhost:3000/api/pinCode')
+    let rawData = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/pinCode`)
     let parsedData = await rawData.json()
     let pinsArray = parsedData.pins
-    console.log(pinsArray, pin)
     pinsArray.includes(pin) ? setService(true) : setService(false)
-    console.log(service)
   }
 
   const onChange = (e) => {
     setPin(parseInt(e.target.value))
   }
 
+  useEffect(() => {
+    let idArray = []
+    for (let i = 0; i < cartItems.length; i++) {
+      idArray.push(cartItems[i].productDetails._id)
+    }
+    setCartProductId(idArray)
+    idArray=[]
+    for (let i = 0; i < wishlist.length; i++) {
+      idArray.push(wishlist[i].productDetails._id)
+    }
+    setWishlistId(idArray)
+  }, [, cartItems, wishlist])
+
+
   return (
     <div>
+
+
       <Head>
         <title>evergoods</title>
         <meta name="description" content="get your goods everywhere, e-commerce, buy, fast delivery." />
@@ -37,10 +56,10 @@ const Slug = ({ product, variants }) => {
       <section className="text-gray-600 body-font overflow-hidden">
         <div className="container px-5 py-10 mx-auto">
           <div className="lg:w-4/5 mx-auto flex flex-wrap">
-            <img alt="ecommerce" className="lg:w-1/2 h-auto object-origin rounded" src={product.img} />
+            <img alt="ecommerce" className="lg:w-1/2 h-full rounded-2xl" src={product.img} />
             <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
               <h2 className="text-sm title-font text-gray-500 tracking-widest">{product.category}</h2>
-              <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{`${product.title} (${product.storage}, ${product.color})`}</h1>
+              <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{`${product.title} (${product.color}${product.size ? ` / ${product.size}` : ''}${product.storage ? ` / ${product.storage}` : ''})`}</h1>
               <div className="flex mb-4">
                 <span className="flex items-center">
                   <svg fill="currentColor" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 text-yellow-500" viewBox="0 0 24 24">
@@ -61,49 +80,73 @@ const Slug = ({ product, variants }) => {
                   <span className="text-gray-600 ml-3">4 Reviews</span>
                 </span>
                 <span className="flex ml-3 pl-3 py-2 border-l-2 border-gray-200 space-x-2s">
-                  <a className="text-gray-500">
+                    <Link href={'https://facebook.com'}>
+                  <a target='_blank' className="text-gray-500">
                     <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
                       <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
                     </svg>
                   </a>
-                  <a className="text-gray-500">
+                    </Link>
+                    <Link href={'https://twitter.com'}>
+                  <a target='_blank' className="text-gray-500">
                     <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
                       <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
                     </svg>
                   </a>
-                  <a className="text-gray-500">
+                    </Link>
+                  <Link href={'https://instagram.com'}>
+                  <a target='_blank' className="text-gray-500">
                     <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
                       <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"></path>
                     </svg>
                   </a>
+                  </Link>
                 </span>
               </div>
               <p className="leading-relaxed">{product.description}</p>
-              <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
-                <div className="flex">
+              <div className="flex sm:flex-row flex-col mt-6 am:items-center items-start pb-5 border-b-2 border-gray-100 mb-5">
+
+                <div className={`flex ${product.color ? '' : 'hidden'} sm:ml-6 ml-2 sm:mb-0 mb-4 items-center`}>
                   <span className="mr-3">Colors</span>
-                  {Object.keys(variants).map((item) => {
-                    return <Link key={variants[item][Object.keys(variants[item])[0]]['slug']} href={`/product/${variants[item][Object.keys(variants[item])[0]]['slug']}`}>
-                      <button style={{backgraoudColor:item}} className={`border-2 mr-1 rounded-full w-6 h-6 ${item==product.color?'border-yellow-400':''}`}></button>
-                      </Link>
-                  })
-                  }
+                  <div className="relative">
+                    <select onChange={(e) => {
+                      router.push(`/product/${variants[e.target.value][Object.keys(variants[e.target.value])[0]]['slug']}`)
+                    }} className="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-200 focus:border-yellow-500 text-base pl-3 pr-10">
+                      <option value={product.color}>{product.color}</option>
+                      {
+                        Object.keys(variants).map((item) => {
+                          if (item != product.color) {
+                            return <option key={variants[item][Object.keys(variants[item])[0]]['slug']} value={item}>{item}</option>
+                          }
+                          else {
+                            return
+                          }
+                        })
+                      }
+                    </select>
+                    <span className="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
+                      <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4" viewBox="0 0 24 24">
+                        <path d="M6 9l6 6 6-6"></path>
+                      </svg>
+                    </span>
+                  </div>
                 </div>
-                <div className="flex ml-6 items-center">
+
+                <div className={`flex ${product.storage || product.size ? '' : 'hidden'} sm:ml-6 ml-2 sm:mb-0 mb-4 items-center`}>
                   <span className="mr-3">Variants</span>
                   <div className="relative">
-                    <select onChange={(e)=>{
+                    <select onChange={(e) => {
                       router.push(`/product/${variants[product.color][e.target.value]['slug']}`)
                     }} className="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-200 focus:border-yellow-500 text-base pl-3 pr-10">
                       <option value={product.storage}>{product.storage}</option>
                       {
                         Object.keys(variants[product.color]).map((item) => {
-                          if(item!=product.storage){
+                          if (item != product.storage) {
                             return <option key={variants[product.color][item]['slug']} value={item}>{item}</option>
                           }
-                        else{
-                          return 
-                        }
+                          else {
+                            return
+                          }
                         })
                       }
                     </select>
@@ -117,14 +160,31 @@ const Slug = ({ product, variants }) => {
               </div>
               <div className="flex">
                 <span className="title-font font-medium text-2xl text-gray-900">₹ {product.price}</span>
-                <button className="flex ml-auto text-black bg-yellow-400 border-0 p-2 focus:outline-none hover:bg-yellow-500 rounded">Add to cart</button>
-                <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
-                  <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
-                    <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
-                  </svg>
-                </button>
+                {cartProductId.includes(product._id) ?
+                  <button onClick={() => { toggleCart() }} className="flex ml-auto text-black bg-yellow-400 border-0 p-2 focus:outline-none hover:bg-yellow-500 rounded">Go to cart</button>
+                  :
+                  <button onClick={() => {
+                    addToCart({ fullProduct: product, productId: product._id, quantity: 1 })
+                  }} className="flex ml-auto text-black bg-yellow-400 border-0 p-2 focus:outline-none hover:bg-yellow-500 rounded">Add to cart</button>
+                }
+                {
+                  wishlistId.includes(product._id) ?
+                    <button disabled className="rounded-full w-10 h-10 bg-red-100 p-0 border-0 inline-flex items-center justify-center text-red-500 ml-4">
+                      <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
+                        <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
+                      </svg>
+                    </button>
+                    :
+                    <button onClick={() => {
+                      let r = addToWishlist({ productId: product._id })
+                    }} className="rounded-full hover:text-red-300 w-10 h-10 bg-red-100 p-0 border-0 inline-flex items-center justify-center text-red-200 ml-4">
+                      <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
+                        <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
+                      </svg>
+                    </button>
+                }
               </div>
-              <div className="w-full flex items-center mt-5 bg-gray-200 rounded p-2">
+              <div className="w-full flex items-center mt-5 bg-yellow-100 rounded p-2">
                 <label htmlFor="email" className="leading-7 text-black mr-2">Pincode: </label>
                 <input onChange={onChange} placeholder='eg: 122043' type="number" id="pin" name="pin" className="w-full bg-white rounded border flex-1 border-gray-300 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
                 <button onClick={checkService} className="flex ml-auto text-white bg-gray-900 border-0 p-2 focus:outline-none hover:bg-gray-800 rounded">Check service</button>
@@ -152,7 +212,6 @@ export async function getServerSideProps(context) {
   connectDb()
   let product = await Product.findOne({ slug: context.query.slug })
   let variants = await Product.find({ title: product.title })
-  console.log(variants)
   let colorSizeSlug = {}
   for (let item of variants) {
     if (Object.keys(colorSizeSlug).includes(item.color)) {
@@ -163,9 +222,9 @@ export async function getServerSideProps(context) {
       colorSizeSlug[item.color][item.storage] = { slug: item.slug }
     }
   }
-console.log(colorSizeSlug)
+
   return {
-    props: {variants:JSON.parse(JSON.stringify(colorSizeSlug)), product: JSON.parse(JSON.stringify(product)) }
+    props: { variants: JSON.parse(JSON.stringify(colorSizeSlug)), product: JSON.parse(JSON.stringify(product)) }
   }
 }
 

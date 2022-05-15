@@ -26,6 +26,13 @@ const UserSchema = new Schema({
                 default: 1,
             }
         }
+    ],
+    wishlist:[
+            {productId:{
+                type: String,
+                required: true,
+                unique: true,
+            }}
     ]
   } , {timestamps: true});
 
