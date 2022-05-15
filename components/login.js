@@ -41,7 +41,7 @@ const Login = () => {
           </div>
         </div>
         <button type='submit' onClick={()=>{}} className="text-white bg-gray-800 border-0 py-2 px-8 focus:outline-none hover:bg-gray-700 rounded-xl text-lg">Log In</button>
-        <p className="text-base text-gray-500 mt-3">Dont't have an account? <a onClick={() => { router.push(`/?modal=signup`) }} className='text-yellow-500 cursor-pointer hover:underline'>Sign Up</a></p>
+        <p className="text-base text-gray-500 mt-3">Do not have an account? <a onClick={() => { router.push(`/?modal=signup`) }} className='text-yellow-500 cursor-pointer hover:underline'>Sign Up</a></p>
       </div>
       </form>
     </section>
