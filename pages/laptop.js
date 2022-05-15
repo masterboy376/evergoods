@@ -18,9 +18,7 @@ const Laptop = (props) => {
                 </Head>
 <div className="p-4">
                 <div className="w-full rounded-2xl flex flex-col justify-start items-center py-4 h-96 bg-[url('/laptopbg.jpg')] bg-cover bg-no-repeat bg-bottom">
-                    <div className="p-4 flex flex-col items-center m-4 opacity-90 justify-center">
-                        <p className="text-xl sm:text-4xl text-center font-bold font-sans mt-10">Get the  best laptop for multiple purpose!</p>
-                    </div>
+                    
                 </div>
 </div>
 
