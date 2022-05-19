@@ -17,7 +17,7 @@ function MyApp({ Component, pageProps }) {
       setProgress(55)
     }, 50)
     router.events.on('routeChangeComplete',()=>{setProgress(100)})
-  }, [router])
+  }, [router.asPath])
   
   return (
     <ContextProvider>
