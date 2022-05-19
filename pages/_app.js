@@ -13,6 +13,9 @@ function MyApp({ Component, pageProps }) {
   const [progress, setProgress] = useState(0)
   const router = useRouter()
   useEffect(() => {
+    setTimeout(()=>{
+      setProgress(55)
+    }, 50)
     router.events.on('routeChangeComplete',()=>{setProgress(100)})
   }, [router])
   
