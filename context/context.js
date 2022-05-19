@@ -252,7 +252,7 @@ export const ContextProvider = ({ children }) => {
             setCartItems(parsedData.items)
             let totalValue = 0
             parsedData.items.map((item)=>{
-                totalValue = totalValue + parseInt(item.productDetails.price)
+                totalValue = totalValue + parseInt(item.productDetails.price*item.quantity)
             })
             setCartValue(totalValue)
             return parsedData
