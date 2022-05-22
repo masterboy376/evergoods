@@ -10,7 +10,7 @@ const handler = async (req, res) => {
         try {
             let user = await User.findOne({ email: req.body.email });
             if (user) {
-                return res.status(400).json({success:false, errors: "Please use different email, user with this email already exists" });
+                return res.status(400).json({success:false, error: "Please use different email, user with this email already exists" });
             }
             const salt = await bcrypt.genSalt(10);
             const securedPassword = await bcrypt.hash(req.body.password, salt);
