@@ -36,7 +36,7 @@ const Checkout = () => {
       <div className='py-6'>
       <div className="w-11/12 bg-white mx-auto sm:w-3/4 h-auto p-4 px-4 max-w-5xl rounded border-2">
         <form action="#" onSubmit={onSubmit}>
-        <p className="sm:text-7xl text-5xl text-gray-500 pb-10 font-thin">Your wish list</p>
+        <p className="sm:text-7xl text-5xl text-gray-500 pb-10 font-thin">Checkout</p>
         <div className="w-full flex flex-col h-full">
           <p className="w-full text-left text-2xl mb-4">1. Delivery Details</p>
 

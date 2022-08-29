@@ -10,6 +10,8 @@ import LoadingBar from 'react-top-loading-bar'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import Sidebar from "../components/Sidebar/Sidebar.js";
+
 function MyApp({ Component, pageProps }) {
   const [progress, setProgress] = useState(0)
   const router = useRouter()
@@ -33,11 +35,23 @@ function MyApp({ Component, pageProps }) {
         draggable
         pauseOnHover
       />
+      {
+        router.pathname.includes('admin')?
+        <>
+      <Sidebar />
+      <div className="relative md:ml-64 bg-blueGray-100">
+        <Component {...pageProps} />
+      </div>
+    </>
+        :
+      <>
       <Navbar />
       <div className="pt-16 min-h-screen bg-white">
       <Component {...pageProps} />
       </div>
       <Footer/>
+      </>
+      }
     </>
     </ContextProvider>
     </AdminContextProvider>

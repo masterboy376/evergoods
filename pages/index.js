@@ -34,7 +34,7 @@ export default function Home() {
 
       {
         allCategories.map((item)=>{
-          return <Link href={`/${item.title}`}>
+          return <Link key={item._id} href={`/${item.title}`}>
           <div className='flex flex-col items-center'>
             <div style={{ 'minWidth': "100px", 'maxWidth': "300px" }} className="p-2 border-2 w-96 hover:shadow rounded bg-white transition-all duration-200 mx-2 flex flex-col items-center">
               <img className='h-full' src={item.img} alt="" />

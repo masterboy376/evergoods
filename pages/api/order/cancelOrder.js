@@ -2,6 +2,7 @@ import User from '../../../models/User'
 import connectDb from '../../../middleware/connect'
 import verifyUser from '../../../middleware/verifyUser'
 import Order from '../../../models/Order'
+import Product from '../../../models/Product'
 
 
 const handler = async (req, res) => {
@@ -15,6 +16,10 @@ const handler = async (req, res) => {
                 return res.status(400).json({ success: false, error: `Please try to login with the correct credentials.` });
             }
             let order = await Order.findByIdAndUpdate(orderId,{status:'cancelled'})
+            let product = await Product.findById(order.productId)
+            if (product) {
+                product = await Product.findByIdAndUpdate(order.productId, {availableQty:product.availableQty+order.quantity})
+            }
             return res.status(200).json({ success: true, order})
         }
         catch (error) {

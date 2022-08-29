@@ -20,6 +20,6 @@ const EmployeeSchema = new Schema({
   mongoose.models = {}
 
   //creating User model
-  const Employee = mongoose.model('User', EmployeeSchema);
+  const Employee = mongoose.model('Employee', EmployeeSchema);
   //exporting User model
   export default Employee;

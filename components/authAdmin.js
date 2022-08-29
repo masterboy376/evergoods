@@ -1,11 +1,9 @@
-import React,{useContext, useState} from 'react'
+import React,{useContext, useState } from 'react'
 import { GrClose } from 'react-icons/gr'
-import { useRouter } from 'next/router'
 import { AdminContext } from '../context/adminContext'
 
 const AuthAdmin = () => {
-  const {AuthAdmin} = useContext(AdminContext)
-  const router = useRouter()
+  const {authAdmin} = useContext(AdminContext)
   const [credentials, setCredentials] = useState({email:'',password:''})
 
    const onChange = (e)=>{
@@ -13,7 +11,7 @@ const AuthAdmin = () => {
     }
     const onSubmit = (e)=>{
      e.preventDefault()
-     AuthAdmin(credentials)
+     authAdmin(credentials)
    }
 
 

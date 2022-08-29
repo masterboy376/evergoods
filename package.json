@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "@emailjs/browser": "^3.6.2",
+    "@popperjs/core": "^2.11.6",
     "bcryptjs": "^2.4.3",
+    "chart.js": "^2.9.4",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.10",
     "next": "12.1.0",

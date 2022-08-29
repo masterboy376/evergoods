@@ -19,6 +19,9 @@ const handler = async (req, res) => {
             if(!product){
                 return res.status(400).json({ success: false, error: `product does not exist.` });
             }
+            if(product.availableQty<quantity){
+                return res.status(400).json({ success: false, error: `quantity is higher than available quantity.` });
+            }
             let order = await Order.create({
                 userId : req.userId,
                 productId : productId,
@@ -27,6 +30,7 @@ const handler = async (req, res) => {
                 track : 'N/A',
                 quantity : quantity
             })
+            product = await Product.findByIdAndUpdate(productId, {availableQty:product.availableQty-quantity})
             return res.status(200).json({ success: true, order})
         }
         catch (error) {

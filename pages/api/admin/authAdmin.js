@@ -18,7 +18,7 @@ const handler = async (req, res) => {
             return res.status(400).json({success:false, error: `Please try to login with the correct credentials.` });
         }
         const data = {
-            Employee: {
+            user: {
                 id: employee._id
             }
         }

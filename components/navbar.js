@@ -104,7 +104,7 @@ const Navbar = () => {
               {/* category  */}
               {displayCategory && <div onMouseLeave={() => { setDisplayCategory(false) }} onMouseOver={() => { setDisplayCategory(true) }} className={`rounded border bg-white flex items-center flex-col text-gray-900 absolute top-12 right-38`}>
                 {allCategories.map((item)=>{
-                  return <Link href={`/${item.title}`}><button className='text-center w-full p-2 rounded hover:bg-gray-100'>{item.title.replace(item.title[0], item.title[0].toUpperCase())}s</button></Link>
+                  return <Link key={item._id} href={`/${item.title}`}><button className='text-center w-full p-2 rounded hover:bg-gray-100'>{item.title.replace(item.title[0], item.title[0].toUpperCase())}s</button></Link>
                 })}
 
               </div>}

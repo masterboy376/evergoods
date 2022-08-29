@@ -24,21 +24,11 @@ const ProductSchema = new Schema({
         type: String,
         required: true,
     },
-    size:{
-        type:String,
-    },
     color:{
-        type:String,
-    },
-    subCategory:{
         type:String,
     },
     storage:{
         type:String,
-    },
-    track:{
-        type: String,
-        default: 'N/A',
     },
     price:{
         type:Number,

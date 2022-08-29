@@ -23,7 +23,7 @@ const Footer = () => {
               <nav className="list-none mb-10">
                 {
                   allCategories.map((item) => {
-                    return <li><Link href={`/${item.title}`}>
+                    return <li key={item._id}><Link href={`/${item.title}`}>
                       <a className="text-gray-600 hover:underline underline-offset-4 hover:text-gray-800">{item.title.replace(item.title[0], item.title[0].toUpperCase())}s</a>
                     </Link></li>
                   })
