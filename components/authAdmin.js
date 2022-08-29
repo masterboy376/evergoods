@@ -1,10 +1,10 @@
 import React,{useContext, useState} from 'react'
 import { GrClose } from 'react-icons/gr'
 import { useRouter } from 'next/router'
-import { Context } from '../context/context'
+import { AdminContext } from '../context/adminContext'
 
-const Login = () => {
-  const {userLogin} = useContext(Context)
+const AuthAdmin = () => {
+  const {AuthAdmin} = useContext(AdminContext)
   const router = useRouter()
   const [credentials, setCredentials] = useState({email:'',password:''})
 
@@ -13,7 +13,7 @@ const Login = () => {
     }
     const onSubmit = (e)=>{
      e.preventDefault()
-     userLogin(credentials)
+     AuthAdmin(credentials)
    }
 
 
@@ -22,7 +22,7 @@ const Login = () => {
       <form action="#" onSubmit={onSubmit}>
       <div className="w-full h-full bg-white rounded p-2 sm:p-4 flex flex-col">
         <div className="flex w-full justify-between items-center mb-5">
-          <h2 className="text-gray-900 text-lg font-medium title-font">Log in</h2>
+          <h2 className="text-gray-900 text-lg font-medium title-font">Log in to Admin Console</h2>
           <button onClick={() => { router.push('') }} className='cursor-pointer'><GrClose /></button>
         </div>
         <div className="relative mb-4">
@@ -32,20 +32,12 @@ const Login = () => {
         <div className="relative mb-4">
           <label htmlFor="password" className="leading-7 text-sm text-gray-600">Password</label>
           <input onChange={onChange} minLength={6} type="password" id="password" name="password" className="w-full bg-white rounded border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-          <div className="flex items-center justify-end">
-            <div className="text-sm">
-                <a onClick={() => { router.push(`/?modal=forgetPassword`)}} className="font-medium text-blue-500 cursor-pointer underline-offset-4 hover:underline">
-                Forgot password?
-              </a>
-            </div>
-          </div>
         </div>
-        <button type='submit' onClick={()=>{}} className="text-white bg-gray-900 border-0 py-2 px-8 focus:outline-none hover:bg-gray-800 rounded text-lg">Log In</button>
-        <p className="text-base mt-3">Do not have an account? <a onClick={() => { router.push(`/?modal=signup`) }} className='text-blue-500 underline-offset-4 cursor-pointer hover:underline'>Sign Up</a></p>
+        <button type='submit' onClick={()=>{}} className="text-white bg-gray-900 border-0 py-2 px-8 focus:outline-none hover:bg-gray-800 rounded text-lg">Enter to Admin Console</button>
       </div>
       </form>
     </section>
   )
 }
 
-export default Login
+export default AuthAdmin

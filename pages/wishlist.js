@@ -17,32 +17,34 @@ const Wishlist = () => {
       </Head>
 
       <section className="text-gray-600 body-font overflow-hidden">
-      <p className="w-full text-center text-black text-3xl font-bold my-4">Wishlists</p>
-        <div className="container px-5 py-10 mx-auto">
+        <div className="container px-5 py-6 mx-auto min-h-screen">
+        <p className="sm:text-7xl text-5xl text-gray-500 pb-10 font-thin">Your wish list</p>
           <div className="-my-8 divide-y-2 divide-gray-100">
             {
               wishlist==null || wishlist==undefined || wishlist.length==0  ?
-              <p className="text-xl mt-10 mx-auto text-center">No item in wishlist so far! 🤷‍♂️</p>
+              <p className="text-2xl text-center font-bold opacity-70">No item in wishlist so far!</p>
               :
               wishlist.map((item,index) => {
-                return <div key={item.productDetails._id} className="py-8 my-2 px-8 flex flex-wrap md:flex-nowrap hover:shadow-2xl transition-all duration-300 ease-in-out bg-white rounded-2xl cursor-pointer hover:shadow-yellow-300">
+                return <Link  key={item.productDetails._id} href={`/product/${item.productDetails.slug}`} ><div className="my-2 p-6 flex flex-wrap md:flex-nowrap hover:shadow border-2 transition-all duration-300 ease-in-out bg-white rounded cursor-pointer">
                     <div className="md:flex-grow">
                       <div className="flex flex-col md:flex-row md:items-start items-center w-full h-full">
-                        <img alt="ecommerce" className="p-4 w-64 h-full object-cover object-center rounded" src={item.productDetails.img} />
+                        <img alt="ecommerce" className="p-4 w-64 h-auto object-cover object-center rounded" src={item.productDetails.img} />
                         <div className="flex flex-col flex-1 h-full">
-                        <Link href={`/product/${item.productDetails.slug}`} ><h2 className="text-2xl font-medium text-gray-900 title-font mb-4">{item.productDetails.title}</h2></Link>
-                          <p className="leading-relaxed">{item.productDetails.description}</p>
-                          <span className="title-font font-medium text-2xl text-gray-900">₹ {item.productDetails.price}</span>
+                        <h2 className="text-2xl font-medium text-gray-900 title-font mb-4">{item.productDetails.title}</h2>
+                          <p className="leading-relaxed">{item.productDetails.description.slice(0,200)}...</p>
+                          <span className="mt-1 text-blue-500 text-xl font-semibold">₹ {item.productDetails.price}</span>
                           <div className="w-full h-full flex items-end justify-end">
-                          <button onClick={() => {
+                          <button onClick={(e) => {
+                            e.stopPropagation()
                             deleteFromWishlist({ productId: item.productDetails._id })
                             initiateWishlist()
-                          }} className='self-end flex justify-center my-2 px-4 py-2 bg-gray-800 text-white rounded-xl text-base sm:text-lg border border-gray-400 hover:bg-gray-700'>Remove from Wishlist</button>
+                          }} className='self-end flex justify-center my-2 px-4 py-2 bg-gray-900 text-white rounded text-base sm:text-lg border border-gray-400 hover:bg-gray-800'>Remove from Wishlist</button>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
+                  </Link>
               })
             }
 

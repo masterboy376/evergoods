@@ -1,11 +1,21 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import connectDb from '../middleware/connect'
 import Product from '../models/Product'
+import { Context } from '../context/context'
 
 const Bagpack = (props) => {
     const [products, setProducts] = useState(props.products)
+    const [wishlistId, setWishlistId] = useState([])
+    const { addToWishlist, deleteFromWishlist, wishlist } = useContext(Context)
+    useEffect(() => {
+        let idArray = []
+        for (let i = 0; i < wishlist.length; i++) {
+            idArray.push(wishlist[i].productDetails._id)
+        }
+        setWishlistId(idArray)
+    }, [, wishlist])
 
     return (
         <>
@@ -17,27 +27,33 @@ const Bagpack = (props) => {
                     <link rel="icon" href="/favicon.png" />
                 </Head>
 
-                <div className="p-4">
-                <div className="w-full rounded-2xl flex flex-col justify-start items-center py-4 h-96 bg-[url('/bagpackbg.jpg')] bg-cover bg-no-repeat bg-bottom">
-                    
-                </div>
-</div>
-
                 <section className="text-gray-600 body-font">
-                    <div className="container px-5 py-24 mx-auto">
+                    <div className="container px-5 py-6 mx-auto">
+                    <p className="sm:text-7xl text-5xl text-gray-500 pb-10 font-thin">Bagpacks</p>
                         <div className="flex flex-wrap -m-4">
                             {
                             products.map((product) => {
                                 return <div key={product.slug} className="lg:w-1/4 md:w-1/2 w-full p-4">
                                     <Link href={`/product/${product.slug}`}>
-                                        <div className="bg-white hover:shadow-yellow-300 flex flex-col transition-all duration-300 ease-in-out justify-between rounded-2xl cursor-pointer w-full hover:shadow-xl h-full">
-                                            <a className="block relative h-auto rounded overflow-hidden">
-                                                <img alt={"ecommerce"} className="p-5 sm:p-2 object-center w-full h-full block" src={product.img} />
-                                            </a>
+                                        <div className="bg-white flex flex-col transition-all duration-300 ease-in-out justify-between border-2 rounded cursor-pointer w-full hover:shadow h-full">
+                                            {/* wishlist button  */}
+                                            <button onClick={(e) => {
+                                                    e.stopPropagation()
+                                                    wishlistId.includes(product._id) ? deleteFromWishlist({ productId: product._id }) : addToWishlist({ productId: product._id })
+                                                }} className={`rounded-full border-2 absolute z-10 bg-gray-100 bg-opacity-60 ${wishlistId.includes(product._id) ? 'text-blue-500' : 'hover:text-blue-300 text-blue-200'} w-10 h-10 p-0 border-0 inline-flex items-center justify-center m-1`}>
+                                                    <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
+                                                        <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
+                                                    </svg>
+                                                </button>
+                                                {/* image container  */}
+                                                <a className="block relative h-auto bg-gray-100 rounded overflow-hidden">
+                                                    <img alt={"ecommerce"} className="p-5 sm:p-2 object-center w-auto mx-auto sm:h-64 h-44 block" src={product.img} />
+                                                </a>
+                                                {/* details container  */}
                                             <div className="p-4">
                                                 <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">{product.category}</h3>
                                                 <h2 className="text-gray-900 title-font text-lg font-medium">{`${product.title.slice(0,30)} (${product.color}${product.size?` / ${product.size}`:''}${product.storage?` / ${product.storage}`:''})`}</h2>
-                                                <p className="mt-1">₹ {product.price}</p>
+                                                <p className="mt-1 text-right text-blue-500 text-lg font-semibold">₹ {product.price}</p>
                                             </div>
                                         </div>
                                     </Link>

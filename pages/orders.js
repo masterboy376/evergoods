@@ -32,17 +32,17 @@ const Orders = () => {
       </Head>
 
       <section className="text-gray-600 body-font overflow-hidden">
-      <p className="w-full text-center text-black text-3xl font-bold my-4">Orders</p>
 
-        <div className="container px-5 py-10 mx-auto">
+        <div className="container px-5 py-6 mx-auto min-h-screen">
+        <p className="sm:text-7xl text-5xl text-gray-500 pb-10 font-thin">Orders</p>
           <div className="-my-8 divide-y-2 divide-gray-100">
             {
               orders==null || orders==undefined || orders.length==0  ?
-              <p className="text-xl mt-10 mx-auto text-center">No orders so far! 🤷‍♂️</p>
+              <p className="text-2xl text-center font-bold opacity-70">No ordered item so far!</p>
               :
                 orders.map((item) => {
                   return <Link key={item.basicOrder._id} href={`/order/${item.basicOrder._id}`} >
-                    <div className="py-8 my-2 px-8 flex flex-wrap md:flex-nowrap hover:shadow-2xl transition-all duration-300 ease-in-out bg-white rounded-2xl cursor-pointer hover:shadow-yellow-300">
+                    <div className="py-8 my-2 px-8 flex flex-wrap md:flex-nowrap hover:shadow border-2 transition-all duration-300 ease-in-out bg-white rounded cursor-pointer">
                       <div className="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
                         <span className="font-semibold title-font text-gray-700">Order ID: {item.basicOrder._id}</span>
                         <span className="mt-1 text-gray-500 text-sm">{new Date(item.basicOrder.createdAt).toLocaleString('en-US', {
@@ -58,9 +58,9 @@ const Orders = () => {
                           <div className="flex-1">
                             <h2 className="text-2xl font-medium text-gray-900 title-font mb-4">{item.productDetails.title}</h2>
                             <p className="leading-relaxed mb-4">{item.productDetails.description.slice(0,200)}...</p>
-                            <span className={`font-bold text-lg rounded-full p-2 ${item.basicOrder.status == 'ordered' ? 'text-yellow-400' : 'hidden'}`}>Ordered</span>
-                            <span className={`font-bold text-lg rounded-full p-2 ${item.basicOrder.status == 'cancelled' ? 'text-red-600' : 'hidden'}`}>Cancelled</span>
-                            <span className={`font-bold text-lg rounded-full p-2 ${item.basicOrder.status == 'delivered' ? 'text-green-600' : 'hidden'}`}>Delivered</span>
+                            <span className={`font-bold text-lg rounded border-2 border-blue-500 p-2 ${item.basicOrder.status == 'ordered' ? 'text-blue-500' : 'hidden'}`}>Ordered</span>
+                            <span className={`font-bold text-lg rounded border-2 border-blue-500 p-2 ${item.basicOrder.status == 'cancelled' ? 'text-blue-500' : 'hidden'}`}>Cancelled</span>
+                            <span className={`font-bold text-lg rounded border-2 border-blue-500 p-2 ${item.basicOrder.status == 'delivered' ? 'text-blue-500' : 'hidden'}`}>Delivered</span>
                           </div>
                         </div>
                       </div>

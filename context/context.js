@@ -18,6 +18,7 @@ export const ContextProvider = ({ children }) => {
     const [wishlist, setWishlist] = useState([])
     const [cartValue, setCartValue] = useState(0)
     const [allProducts, setAllProducts] = useState([])
+    const [allCategories, setAllCategories] = useState([])
     const [isSearch, setIsSearch] = useState(false)
     const [displaySmCategory, setDisplaySmCategory] = useState(false)
     const [displaySmProfile, setDisplaySmProfile] = useState(false)
@@ -42,17 +43,26 @@ export const ContextProvider = ({ children }) => {
 
     useEffect(() => {
         getProducts()
+        getCategories()
     }, [])
       
 
     // -----funstions-----
     //get all products
     const getProducts = async () => {
-            const rawData = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/product/getProducts`)
+            const rawData = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/admin/getProducts`)
             const parsedData = await rawData.json()
             if(parsedData.success){
                 setAllProducts(parsedData.products)
-                console.log(allProducts)
+            }
+    }
+
+    //get all categories
+    const getCategories = async () => {
+            const rawData = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/admin/getCategories`)
+            const parsedData = await rawData.json()
+            if(parsedData.success){
+                setAllCategories(parsedData.categories)
             }
     }
 
@@ -95,6 +105,30 @@ export const ContextProvider = ({ children }) => {
             router.push('')
             localStorage.setItem('authToken', parsedData.authToken)
             alertSuccess('Signed up successfully!')
+        }
+        else {
+            setIsLoggedin(false)
+            localStorage.removeItem('authToken')
+            alertFailure('Invalid credentials!')
+        }
+        return parsedData
+    }
+
+    //function to login a user
+    const resetPassword = async (credentials) => {
+        const rawData = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/user/resetPassword`, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(credentials)
+        })
+        const parsedData = await rawData.json()
+        if (parsedData.success) {
+            setIsLoggedin(true)
+            router.push('')
+            localStorage.setItem('authToken', parsedData.authToken)
+            alertSuccess('Password changed and Logged In successfully!')
         }
         else {
             setIsLoggedin(false)
@@ -249,12 +283,14 @@ export const ContextProvider = ({ children }) => {
                 body: JSON.stringify({ authToken: localStorage.getItem('authToken') })
             })
             const parsedData = await rawData.json()
-            setCartItems(parsedData.items)
-            let totalValue = 0
-            parsedData.items.map((item)=>{
-                totalValue = totalValue + parseInt(item.productDetails.price*item.quantity)
-            })
-            setCartValue(totalValue)
+            if(parsedData.success){
+                setCartItems(parsedData.items)
+                let totalValue = 0
+                parsedData.items.map((item)=>{
+                    totalValue = totalValue + parseInt(item.productDetails.price*item.quantity)
+                })
+                setCartValue(totalValue)
+            }
             return parsedData
         }
     }
@@ -428,7 +464,7 @@ export const ContextProvider = ({ children }) => {
 
 
     return (
-        <Context.Provider value={{ isLoggedin, userLogin, userSignup, userLogout, addToCart, clearCart, plusToCart, minusToCart, deleteFromCart, displayMenu, setDisplayProfile, setDisplayCategory, toggleMenu, displayCart, toggleCart, displayCategory, toggleCategory, displayProfile, toggleProfile, alertFailure, alertSuccess, cartItems, setCartItems, cartValue, cancelOrder, placeOrder, addToWishlist, deleteFromWishlist, wishlist,setWishlist, initiateWishlist, isSearch, setIsSearch, allProducts, displaySmCategory, displaySmProfile, setDisplaySmCategory, setDisplaySmProfile }}>
+        <Context.Provider value={{ isLoggedin, userLogin, userSignup, resetPassword, userLogout, addToCart, clearCart, plusToCart, minusToCart, deleteFromCart, displayMenu, setDisplayProfile, setDisplayCategory, toggleMenu, displayCart, toggleCart, displayCategory, toggleCategory, displayProfile, toggleProfile, alertFailure, alertSuccess, cartItems, setCartItems, cartValue, cancelOrder, placeOrder, addToWishlist, deleteFromWishlist, wishlist,setWishlist, initiateWishlist, isSearch, setIsSearch, allProducts, allCategories, displaySmCategory, displaySmProfile, setDisplaySmCategory, setDisplaySmProfile }}>
             {children}
         </Context.Provider>
     )

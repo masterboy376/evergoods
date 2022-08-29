@@ -8,7 +8,7 @@ import Head from 'next/head'
 import { Context } from '../../context/context'
 
 const Slug = ({ product, variants }) => {
-  const { addToCart, cartItems, toggleCart, addToWishlist, wishlist } = useContext(Context)
+  const { addToCart, cartItems, toggleCart, addToWishlist, deleteFromWishlist, wishlist } = useContext(Context)
   const router = useRouter()
   const { slug } = router.query
 
@@ -56,25 +56,27 @@ const Slug = ({ product, variants }) => {
       <section className="text-gray-600 body-font overflow-hidden">
         <div className="container px-5 py-10 mx-auto">
           <div className="lg:w-4/5 mx-auto flex flex-wrap">
-            <img alt="ecommerce" className="lg:w-1/2 h-full rounded-2xl" src={product.img} />
+          <div className="flex items-start justify-center sm:w-1/2 py-10 w-full rounded">
+            <img alt="ecommerce" className=" h-auto max-h-64 sm:max-h-96 w-auto rounded" src={product.img} />
+          </div>
             <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
               <h2 className="text-sm title-font text-gray-500 tracking-widest">{product.category}</h2>
               <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{`${product.title} (${product.color}${product.size ? ` / ${product.size}` : ''}${product.storage ? ` / ${product.storage}` : ''})`}</h1>
               <div className="flex mb-4">
                 <span className="flex items-center">
-                  <svg fill="currentColor" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 text-yellow-500" viewBox="0 0 24 24">
+                  <svg fill="currentColor" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 text-blue-500" viewBox="0 0 24 24">
                     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
                   </svg>
-                  <svg fill="currentColor" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 text-yellow-500" viewBox="0 0 24 24">
+                  <svg fill="currentColor" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 text-blue-500" viewBox="0 0 24 24">
                     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
                   </svg>
-                  <svg fill="currentColor" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 text-yellow-500" viewBox="0 0 24 24">
+                  <svg fill="currentColor" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 text-blue-500" viewBox="0 0 24 24">
                     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
                   </svg>
-                  <svg fill="currentColor" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 text-yellow-500" viewBox="0 0 24 24">
+                  <svg fill="currentColor" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 text-blue-500" viewBox="0 0 24 24">
                     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
                   </svg>
-                  <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 text-yellow-500" viewBox="0 0 24 24">
+                  <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 text-blue-500" viewBox="0 0 24 24">
                     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
                   </svg>
                   <span className="text-gray-600 ml-3">4 Reviews</span>
@@ -106,12 +108,13 @@ const Slug = ({ product, variants }) => {
               <p className="leading-relaxed">{product.description}</p>
               <div className="flex sm:flex-row flex-col mt-6 am:items-center items-start pb-5 border-b-2 border-gray-100 mb-5">
 
-                <div className={`flex ${product.color ? '' : 'hidden'} sm:ml-6 ml-2 sm:mb-0 mb-4 items-center`}>
+{/* colors  */}
+                <div className={`flex ${product.color ? '' : 'hidden'} sm:ml-0 ml-2 sm:mb-0 mb-4 items-center`}>
                   <span className="mr-3">Colors</span>
                   <div className="relative">
                     <select onChange={(e) => {
                       router.push(`/product/${variants[e.target.value][Object.keys(variants[e.target.value])[0]]['slug']}`)
-                    }} className="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-200 focus:border-yellow-500 text-base pl-3 pr-10">
+                    }} className="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:blue-yellow-200 focus:blue-yellow-500 text-base pl-3 pr-10">
                       <option value={product.color}>{product.color}</option>
                       {
                         Object.keys(variants).map((item) => {
@@ -132,12 +135,13 @@ const Slug = ({ product, variants }) => {
                   </div>
                 </div>
 
+{/* varients */}
                 <div className={`flex ${product.storage || product.size ? '' : 'hidden'} sm:ml-6 ml-2 sm:mb-0 mb-4 items-center`}>
                   <span className="mr-3">Variants</span>
                   <div className="relative">
                     <select onChange={(e) => {
                       router.push(`/product/${variants[product.color][e.target.value]['slug']}`)
-                    }} className="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-200 focus:border-yellow-500 text-base pl-3 pr-10">
+                    }} className="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-500 text-base pl-3 pr-10">
                       <option value={product.storage}>{product.storage}</option>
                       {
                         Object.keys(variants[product.color]).map((item) => {
@@ -159,33 +163,24 @@ const Slug = ({ product, variants }) => {
                 </div>
               </div>
               <div className="flex">
-                <span className="title-font font-medium text-2xl text-gray-900">₹ {product.price}</span>
-                {cartProductId.includes(product._id) ?
-                  <button onClick={() => { toggleCart() }} className="flex ml-auto text-black bg-yellow-400 border-0 p-2 focus:outline-none hover:bg-yellow-500 rounded">Go to cart</button>
-                  :
-                  <button onClick={() => {
-                    addToCart({ fullProduct: product, productId: product._id, quantity: 1 })
-                  }} className="flex ml-auto text-black bg-yellow-400 border-0 p-2 focus:outline-none hover:bg-yellow-500 rounded">Add to cart</button>
-                }
-                {
-                  wishlistId.includes(product._id) ?
-                    <button disabled className="rounded-full w-10 h-10 bg-red-100 p-0 border-0 inline-flex items-center justify-center text-red-500 ml-4">
-                      <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
-                        <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
-                      </svg>
-                    </button>
-                    :
+                <span className="title-font font-medium text-2xl text-blue-500">₹ {product.price}</span>
+
+                {/* cart button  */}
+                  <button onClick={() => { cartProductId.includes(product._id) ? toggleCart():addToCart({ fullProduct: product, productId: product._id, quantity: 1 }) }} className="flex ml-auto text-white bg-gray-900 border-0 p-2 focus:outline-none hover:bg-gray-800 rounded">{cartProductId.includes(product._id) ? 'Go to cart':'Add to cart'}</button>
+                  
+                {/* wishlist button  */}
                     <button onClick={() => {
-                      let r = addToWishlist({ productId: product._id })
-                    }} className="rounded-full hover:text-red-300 w-10 h-10 bg-red-100 p-0 border-0 inline-flex items-center justify-center text-red-200 ml-4">
+                      wishlistId.includes(product._id) ? deleteFromWishlist({ productId: product._id }) : addToWishlist({ productId: product._id })
+                    }} className={`rounded-full border-2 bg-gray-100 bg-opacity-60 ${wishlistId.includes(product._id) ?'text-blue-500':'hover:text-blue-300 text-blue-200'} w-10 h-10 p-0 border-0 inline-flex items-center justify-center ml-4`}>
                       <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
                         <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
                       </svg>
                     </button>
-                }
               </div>
-              <div className="w-full flex items-center mt-5 bg-yellow-100 rounded p-2">
-                <label htmlFor="email" className="leading-7 text-black mr-2">Pincode: </label>
+
+              {/* servicability check  */}
+              <div className="w-full flex items-center mt-5 bg-gray-100 rounded p-2">
+                <label htmlFor="pin" className="leading-7 text-black mr-2">Pincode: </label>
                 <input onChange={onChange} placeholder='eg: 122043' type="number" id="pin" name="pin" className="w-full bg-white rounded border flex-1 border-gray-300 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
                 <button onClick={checkService} className="flex ml-auto text-white bg-gray-900 border-0 p-2 focus:outline-none hover:bg-gray-800 rounded">Check service</button>
               </div>

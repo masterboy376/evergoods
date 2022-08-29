@@ -9,7 +9,7 @@ const handler = async (req, res) => {
         verifyUser(req,res)
         try {
             const { product, quantity } = await req.body;
-            let user = await User.findById(req.userId);
+            let user = await User.findById(req.userId).select("-password");
             if (!user) {
                 return res.status(400).json({ success: false, error: `Please try to login with the correct credentials.` });
             }

@@ -5,6 +5,7 @@ import Navbar from '../components/navbar'
 import '../styles/globals.css'
 import '../styles/custom.css'
 import {ContextProvider} from '../context/context'
+import {AdminContextProvider} from '../context/adminContext'
 import LoadingBar from 'react-top-loading-bar'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -17,9 +18,10 @@ function MyApp({ Component, pageProps }) {
   }, [router.events])
   
   return (
+    <AdminContextProvider>
     <ContextProvider>
     <>
-    <LoadingBar color='#ff4500' progress={progress} onLoaderFinished={()=> setProgress(0)} waitingTime={0} height={4}/>
+    <LoadingBar color='#3b82f6' progress={progress} onLoaderFinished={()=> setProgress(0)} waitingTime={0} height={4}/>
     <ToastContainer
         position="bottom-right"
         autoClose={5000}
@@ -32,12 +34,13 @@ function MyApp({ Component, pageProps }) {
         pauseOnHover
       />
       <Navbar />
-      <div className="pt-16 min-h-screen bg-yellow-50">
+      <div className="pt-16 min-h-screen bg-white">
       <Component {...pageProps} />
       </div>
       <Footer/>
     </>
     </ContextProvider>
+    </AdminContextProvider>
   )
 }
 

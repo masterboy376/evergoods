@@ -8,7 +8,7 @@ const handler = async (req, res) => {
     if (req.method == 'POST') {
         connectDb(req,res)
         try {
-            let user = await User.findOne({ email: req.body.email });
+            let user = await User.findOne({ email: req.body.email }).select("-password");
             if (user) {
                 return res.status(400).json({success:false, error: "Please use different email, user with this email already exists" });
             }

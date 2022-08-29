@@ -1,22 +1,22 @@
-import User from '../../../models/User'
+import Order from '../../../models/Order'
+import Employee from '../../../models/Employee'
 import connectDb from '../../../middleware/connect'
 import verifyUser from '../../../middleware/verifyUser'
 
-
 const handler = async (req, res) => {
     if (req.method == 'POST') {
-        connectDb(req,res)
-        verifyUser(req,res)
+        connectDb(req, res)
+        verifyUser(req, res)
         try {
-            let user = await User.findById(req.userId).select("-password");
-            if (!user) {
+            let employee = await Employee.findById(req.userId).select("-password");
+            if (!employee) {
                 return res.status(400).json({ success: false, error: `Please try to login with the correct credentials.` });
             }
-            let updatedCart = await User.findByIdAndUpdate(req.userId, {cart:[]})
-            return res.status(200).json({ success: true, cart:[]})
+            let orders = await Order.find()
+            return res.status(200).json({ success: true, orders })
         }
-        catch (error) {
-            res.status(500).json({ success: false, error: `Internal serer error occured!` });
+        catch (e) {
+            return res.status(500).json({ success: false, error: "internal server error occurred" })
         }
     }
     else {
