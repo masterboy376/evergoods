@@ -35,7 +35,7 @@ const Slug = ({ product, variants }) => {
       idArray.push(cartItems[i].productDetails._id)
     }
     setCartProductId(idArray)
-    idArray=[]
+    idArray = []
     for (let i = 0; i < wishlist.length; i++) {
       idArray.push(wishlist[i].productDetails._id)
     }
@@ -56,9 +56,9 @@ const Slug = ({ product, variants }) => {
       <section className="text-gray-600 body-font overflow-hidden">
         <div className="container px-5 py-10 mx-auto">
           <div className="lg:w-4/5 mx-auto flex flex-wrap">
-          <div className="flex items-start justify-center sm:w-1/2 py-10 w-full rounded">
-            <img alt="ecommerce" className=" h-auto max-h-64 sm:max-h-96 w-auto rounded" src={product.img} />
-          </div>
+            <div className="flex items-start justify-center sm:w-1/2 py-10 w-full rounded">
+              <img alt="ecommerce" className=" h-auto max-h-64 sm:max-h-96 w-auto rounded" src={product.img} />
+            </div>
             <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
               <h2 className="text-sm title-font text-gray-500 tracking-widest">{product.category}</h2>
               <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{`${product.title} (${product.color}${product.size ? ` / ${product.size}` : ''}${product.storage ? ` / ${product.storage}` : ''})`}</h1>
@@ -82,33 +82,33 @@ const Slug = ({ product, variants }) => {
                   <span className="text-gray-600 ml-3">4 Reviews</span>
                 </span>
                 <span className="flex ml-3 pl-3 py-2 border-l-2 border-gray-200 space-x-2s">
-                    <Link href={'https://facebook.com'}>
-                  <a target='_blank' className="text-gray-500">
-                    <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
-                      <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
-                    </svg>
-                  </a>
-                    </Link>
-                    <Link href={'https://twitter.com'}>
-                  <a target='_blank' className="text-gray-500">
-                    <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
-                      <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
-                    </svg>
-                  </a>
-                    </Link>
+                  <Link href={'https://facebook.com'}>
+                    <a target='_blank' className="text-gray-500">
+                      <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
+                        <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
+                      </svg>
+                    </a>
+                  </Link>
+                  <Link href={'https://twitter.com'}>
+                    <a target='_blank' className="text-gray-500">
+                      <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
+                        <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
+                      </svg>
+                    </a>
+                  </Link>
                   <Link href={'https://instagram.com'}>
-                  <a target='_blank' className="text-gray-500">
-                    <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
-                      <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"></path>
-                    </svg>
-                  </a>
+                    <a target='_blank' className="text-gray-500">
+                      <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
+                        <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"></path>
+                      </svg>
+                    </a>
                   </Link>
                 </span>
               </div>
               <p className="leading-relaxed">{product.description}</p>
               <div className="flex sm:flex-row flex-col mt-6 am:items-center items-start pb-5 border-b-2 border-gray-100 mb-5">
 
-{/* colors  */}
+                {/* colors  */}
                 <div className={`flex ${product.color ? '' : 'hidden'} sm:ml-0 ml-2 sm:mb-0 mb-4 items-center`}>
                   <span className="mr-3">Colors</span>
                   <div className="relative">
@@ -135,7 +135,7 @@ const Slug = ({ product, variants }) => {
                   </div>
                 </div>
 
-{/* varients */}
+                {/* varients */}
                 <div className={`flex ${product.storage || product.size ? '' : 'hidden'} sm:ml-6 ml-2 sm:mb-0 mb-4 items-center`}>
                   <span className="mr-3">Variants</span>
                   <div className="relative">
@@ -163,19 +163,23 @@ const Slug = ({ product, variants }) => {
                 </div>
               </div>
               <div className="flex">
+                {product.availableQty > 0 ?
                 <span className="title-font font-medium text-2xl text-blue-500">₹ {product.price}</span>
+                  :
+                  <div className='w-auto px-1 font-semibold border border-red-500 py-1 text-center text-red-500'>Out of Stock</div>
+                }
 
                 {/* cart button  */}
-                  <button onClick={() => { cartProductId.includes(product._id) ? toggleCart():addToCart({ fullProduct: product, productId: product._id, quantity: 1 }) }} className="flex ml-auto text-white bg-gray-900 border-0 p-2 focus:outline-none hover:bg-gray-800 rounded">{cartProductId.includes(product._id) ? 'Go to cart':'Add to cart'}</button>
-                  
+                <button onClick={() => { cartProductId.includes(product._id) ? toggleCart() : addToCart({ fullProduct: product, productId: product._id, quantity: 1 }) }} className="flex ml-auto text-white bg-gray-900 border-0 p-2 focus:outline-none hover:bg-gray-800 rounded">{cartProductId.includes(product._id) ? 'Go to cart' : 'Add to cart'}</button>
+
                 {/* wishlist button  */}
-                    <button onClick={() => {
-                      wishlistId.includes(product._id) ? deleteFromWishlist({ productId: product._id }) : addToWishlist({ productId: product._id })
-                    }} className={`rounded-full border-2 bg-gray-100 bg-opacity-60 ${wishlistId.includes(product._id) ?'text-blue-500':'hover:text-blue-300 text-blue-200'} w-10 h-10 p-0 border-0 inline-flex items-center justify-center ml-4`}>
-                      <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
-                        <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
-                      </svg>
-                    </button>
+                <button onClick={() => {
+                  wishlistId.includes(product._id) ? deleteFromWishlist({ productId: product._id }) : addToWishlist({ productId: product._id })
+                }} className={`rounded-full border-2 bg-gray-100 bg-opacity-60 ${wishlistId.includes(product._id) ? 'text-blue-500' : 'hover:text-blue-300 text-blue-200'} w-10 h-10 p-0 border-0 inline-flex items-center justify-center ml-4`}>
+                  <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
+                    <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
+                  </svg>
+                </button>
               </div>
 
               {/* servicability check  */}

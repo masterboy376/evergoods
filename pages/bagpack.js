@@ -53,7 +53,11 @@ const Bagpack = (props) => {
                                             <div className="p-4">
                                                 <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">{product.category}</h3>
                                                 <h2 className="text-gray-900 title-font text-lg font-medium">{`${product.title.slice(0,30)} (${product.color}${product.size?` / ${product.size}`:''}${product.storage?` / ${product.storage}`:''})`}</h2>
-                                                <p className="mt-1 text-right text-blue-500 text-lg font-semibold">₹ {product.price}</p>
+                                                {product.availableQty>0?
+                                                    <p className="mt-1 text-right text-blue-500 text-lg font-semibold">₹ {product.price}</p>
+                                                    :
+                                                    <div className='w-full px-1 font-semibold border border-red-500 py-1 text-center text-red-500'>Out of Stock</div>
+                                                    }
                                             </div>
                                         </div>
                                     </Link>

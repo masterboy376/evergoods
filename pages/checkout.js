@@ -9,7 +9,7 @@ import {useRouter} from 'next/router'
 
 
 const Checkout = () => {
-  const { cartItems, cartValue, plusToCart, minusToCart, placeOrder } = useContext(Context)
+  const { cartItems, cartValue, plusToCart, minusToCart, placeOrder, alertFailure } = useContext(Context)
   const router = useRouter()
   const [credentials, setCredentials] = useState({name:'',address:'',email:'', phone:'', pincode:''})
 
@@ -21,7 +21,12 @@ const Checkout = () => {
      alert('This application is not currently in production so we do not charge anything to place order.')
     e.preventDefault()
     for(let i in cartItems){
-      placeOrder({productId:cartItems[i].productDetails._id,quantity:cartItems[i].quantity, address:credentials.address, name:credentials.name, email:credentials.email, phone:credentials.phone, pincode:credentials.pincode})
+      if(cartItems[i].productDetails.availableQty > 0){
+        placeOrder({productId:cartItems[i].productDetails._id,quantity:cartItems[i].quantity, address:credentials.address, name:credentials.name, email:credentials.email, phone:credentials.phone, pincode:credentials.pincode})
+      }
+      else{
+        alertFailure(`${cartItems[i].productDetails._id} is out of Stock hence this one will not be ordered.`)
+      }
     }
     setCredentials({name:'',address:'',email:'', phone:'', pincode:''})
     router.push('/orders')
@@ -76,6 +81,7 @@ const Checkout = () => {
               <p className="text-lg text-center">No item in the cart to order</p>
               :
               cartItems.map((item,index) => {
+                if(item.productDetails.availableQty > 0){
                 return <div key={index} className="flex justify-content border-b p-2">
                   <div className="flex flex-1">
                     {item.productDetails.title}
@@ -86,6 +92,10 @@ const Checkout = () => {
                     <button type='button' onClick={() => { plusToCart({ productId: item.productDetails._id }) }}><AiOutlinePlus /></button>
                   </div>
                 </div>
+                }
+                else{
+                  return
+                }
               })}
             </div>
 
