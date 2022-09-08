@@ -63,7 +63,7 @@ const Navbar = () => {
       setResults(res)
       res = []
     }
-    else{
+    else {
       setResults([])
     }
   }, [searchValue])
@@ -90,7 +90,7 @@ const Navbar = () => {
           </div>
 
           <div className="flex-1 z-20">
-            <div onClick={() => { setIsSearch(true) }} className={`px-1 sm:px-2 flex justify-center ${isSearch?'drop-shadow':''} mx-auto`}>
+            <div onClick={() => { setIsSearch(true) }} className={`px-1 sm:px-2 flex justify-center ${isSearch ? 'drop-shadow' : ''} mx-auto`}>
               <input defaultValue={''} onChange={onChange} type="text" placeholder='Search' className={`w-10/12 max-w-4xl text-gray-900 border-l border-t border-b sm:w-full outline-none p-2 rounded-l text-lg `} />
               <button type='button' className='bg-white border-r border-t border-b rounded-r flex justify-center items-center sm:p-2 hover:bg-gray-100'><BiSearch color='black' size={28} /></button>
             </div>
@@ -103,7 +103,7 @@ const Navbar = () => {
 
               {/* category  */}
               {displayCategory && <div onMouseLeave={() => { setDisplayCategory(false) }} onMouseOver={() => { setDisplayCategory(true) }} className={`rounded border bg-white flex items-center flex-col text-gray-900 absolute top-12 right-38`}>
-                {allCategories.map((item)=>{
+                {allCategories.map((item) => {
                   return <Link key={item._id} href={`/${item.title}`}><button className='text-center w-full p-2 rounded hover:bg-gray-100'>{item.title.replace(item.title[0], item.title[0].toUpperCase())}s</button></Link>
                 })}
 
@@ -174,19 +174,19 @@ const Navbar = () => {
             setDisplaySmProfile(false)
             toggleMenu()
           }} className='w-full pl-8 pr-2 py-2'>
-            {isLoggedin?
-            <>
-              <Link href={'/orders'}><p className='hover:underline cursoe-pointer w-full p-2'>Orders</p></Link>
-              <Link href={'/wishlist'}><p className='hover:underline cursoe-pointer w-full p-2'>Wishlist</p></Link>
-              <p onClick={() => {
-                userLogout()
-              }} className='hover:underline cursoe-pointer w-full p-2'>Log out</p>
-            </>
-            :
-            <>
-              <p onClick={() => { router.push(`/?modal=login`) }}  className='hover:underline cursoe-pointer w-full p-2'>Log In</p>
-              <p onClick={() => { router.push(`/?modal=signup`) }}  className='hover:underline cursoe-pointer w-full p-2'>Sign Up</p>
-            </>
+            {isLoggedin ?
+              <>
+                <Link href={'/orders'}><p className='hover:underline cursoe-pointer w-full p-2'>Orders</p></Link>
+                <Link href={'/wishlist'}><p className='hover:underline cursoe-pointer w-full p-2'>Wishlist</p></Link>
+                <p onClick={() => {
+                  userLogout()
+                }} className='hover:underline cursoe-pointer w-full p-2'>Log out</p>
+              </>
+              :
+              <>
+                <p onClick={() => { router.push(`/?modal=login`) }} className='hover:underline cursoe-pointer w-full p-2'>Log In</p>
+                <p onClick={() => { router.push(`/?modal=signup`) }} className='hover:underline cursoe-pointer w-full p-2'>Sign Up</p>
+              </>
             }
           </div>}
         </div>
@@ -207,18 +207,32 @@ const Navbar = () => {
                       <div className="flex-col flex-1">
                         <Link href={`/product/${item.productDetails.slug}`}><p className='cursor-pointer font-bold'>{item.productDetails.title.slice(0, 30)}</p></Link>
                         <div className="flex items-center mt-4 w-full">
-                          <p className="text-sm">{item.productDetails.color? item.productDetails.color:''}{item.productDetails.storage ? ', '+item.productDetails.storage : ''}</p>
+                          <p className="text-sm">{item.productDetails.color ? item.productDetails.color : ''}{item.productDetails.storage ? ', ' + item.productDetails.storage : ''}</p>
                         </div>
                         <div className="mt-4 w-full">
-                          <p className="text-sm">₹ {item.productDetails.price}</p>
+                          {item.productDetails.availableQty > 0 ?
+                            <p className="text-sm text-blue-500 font-semibold">₹ {item.productDetails.price}</p>
+                            :
+                            <div className='w-auto px-1 font-semibold border border-red-500 py-1 text-center text-red-500'>Out of Stock</div>
+                          }
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-center">
-                      <button onClick={() => { minusToCart({ productId: item.productDetails._id }) }}><AiOutlineMinus /></button>
-                      <span className="px-1 border rounded">{item.quantity}</span>
-                      <button onClick={() => { plusToCart({ productId: item.productDetails._id }) }}><AiOutlinePlus /></button>
-                    </div>
+
+                    {item.productDetails.availableQty > 0 ?
+                      <div className="flex items-center">
+                        <button onClick={() => { minusToCart({ productId: item.productDetails._id }) }}><AiOutlineMinus /></button>
+                        <span className="px-1 border rounded">{item.quantity}</span>
+                        <button onClick={() => { plusToCart({ productId: item.productDetails._id }) }}><AiOutlinePlus /></button>
+                      </div>
+                      :
+                      <div className="flex items-center">
+                        <button disabled='true' onClick={() => { minusToCart({ productId: item.productDetails._id }) }}><AiOutlineMinus /></button>
+                        <span className="px-1 border rounded">{'-'}</span>
+                        <button disabled='true' onClick={() => { plusToCart({ productId: item.productDetails._id }) }}><AiOutlinePlus /></button>
+                      </div>
+                    }
+                    
                   </div>
                   <div className="flex justify-content">
                     <button onClick={() => { deleteFromCart({ productId: item.productDetails._id }) }} type='button' className='w-full p-4 hover:bg-gray-100 border'>Remove</button>

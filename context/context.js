@@ -287,7 +287,9 @@ export const ContextProvider = ({ children }) => {
                 setCartItems(parsedData.items)
                 let totalValue = 0
                 parsedData.items.map((item)=>{
-                    totalValue = totalValue + parseInt(item.productDetails.price*item.quantity)
+                    if(item.productDetails.availableQty>0){
+                        totalValue = totalValue + parseInt(item.productDetails.price*item.quantity)
+                    }
                 })
                 setCartValue(totalValue)
             }
@@ -464,7 +466,7 @@ export const ContextProvider = ({ children }) => {
 
 
     return (
-        <Context.Provider value={{ isLoggedin, userLogin, userSignup, resetPassword, userLogout, addToCart, clearCart, plusToCart, minusToCart, deleteFromCart, displayMenu, setDisplayProfile, setDisplayCategory, toggleMenu, displayCart, toggleCart, displayCategory, toggleCategory, displayProfile, toggleProfile, alertFailure, alertSuccess, cartItems, setCartItems, cartValue, cancelOrder, placeOrder, addToWishlist, deleteFromWishlist, wishlist,setWishlist, initiateWishlist, isSearch, setIsSearch, allProducts, allCategories, displaySmCategory, displaySmProfile, setDisplaySmCategory, setDisplaySmProfile }}>
+        <Context.Provider value={{ isLoggedin, userLogin, userSignup, resetPassword, userLogout, addToCart, clearCart, plusToCart, minusToCart, deleteFromCart, displayMenu, setDisplayProfile, setDisplayCategory, toggleMenu, displayCart, toggleCart, displayCategory, toggleCategory, displayProfile, toggleProfile, alertFailure, alertSuccess, cartItems, setCartItems, cartValue, cancelOrder, placeOrder, addToWishlist, deleteFromWishlist, wishlist,setWishlist, initiateWishlist, isSearch, setIsSearch, allProducts, allCategories, displaySmCategory, displaySmProfile, setDisplaySmCategory, setDisplaySmProfile, alertFailure }}>
             {children}
         </Context.Provider>
     )
